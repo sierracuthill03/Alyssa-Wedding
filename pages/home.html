@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Alyssa and Liam Cahoon are getting married on June 26, 2027, at the Roger Williams Casino in Providence, Rhode Island.">
+  <meta name="theme-color" content="#e3edf7">
+  <title>Home — Alyssa &amp; Liam Cahoon</title>
+  <link rel="icon" href="../assets/images/Cahoon%20Logo.png" type="image/png">
+  <link rel="apple-touch-icon" href="../assets/images/Cahoon%20Logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css?v=67">
+</head>
+<body class="is-home">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="masthead" data-header>
+    <p class="masthead-names"><a href="home.html">Alyssa &amp; Liam</a></p>
+    <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
+      <span class="nav-toggle-bar"></span>
+      <span class="visually-hidden">Menu</span>
+    </button>
+    <nav class="site-nav" id="site-nav" data-nav>
+      <ul class="nav-list">
+        <li><a href="ourstory.html">Our Story</a></li>
+        <li><a href="meetthecrew.html">The Crew</a></li>
+        <li><a href="weddingdetails.html">Details</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="registry.html">Registry</a></li>
+        <li><a href="FAQs.html">FAQ</a></li>
+        <li><a href="rsvp.html">RSVP</a></li>
+      </ul>
+    </nav>
+    <p class="masthead-date"><time datetime="2027-06-26">06.26.2027</time></p>
+  </header>
+
+  <main id="main">
+    <figure class="feature-photo">
+      <img src="../assets/images/home%20page.jpg" alt="Alyssa and Liam">
+    </figure>
+    <div class="countdown" id="countdown" data-countdown aria-live="polite">
+      <div class="countdown-item">
+        <span class="countdown-value" id="count-days">00</span>
+        <span class="countdown-label">Days</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-value" id="count-hours">00</span>
+        <span class="countdown-label">Hours</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-value" id="count-minutes">00</span>
+        <span class="countdown-label">Minutes</span>
+      </div>
+      <div class="countdown-item">
+        <span class="countdown-value" id="count-seconds">00</span>
+        <span class="countdown-label">Seconds</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <a class="footer-logo" href="home.html"><img src="../assets/images/Cahoon%20Logo.png" alt="Alyssa and Liam Cahoon"></a>
+  </footer>
+  <script>
+    (function () {
+      var daysEl = document.getElementById("count-days");
+      var hoursEl = document.getElementById("count-hours");
+      var minutesEl = document.getElementById("count-minutes");
+      var secondsEl = document.getElementById("count-seconds");
+      if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
+
+      function pad(value) {
+        return String(value).padStart(2, "0");
+      }
+
+      function tick() {
+        var target = new Date(2027, 5, 26, 15, 0, 0).getTime();
+        var left = Math.max(0, target - Date.now());
+        var total = Math.floor(left / 1000);
+        daysEl.textContent = String(Math.floor(total / 86400));
+        hoursEl.textContent = pad(Math.floor((total % 86400) / 3600));
+        minutesEl.textContent = pad(Math.floor((total % 3600) / 60));
+        secondsEl.textContent = pad(total % 60);
+      }
+
+      tick();
+      window.setInterval(tick, 1000);
+    })();
+  </script>
+  <script src="../script.js?v=2"></script>
+</body>
+</html>

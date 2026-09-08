@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=72">
+  <link rel="stylesheet" href="../styles.css?v=73">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -74,8 +74,12 @@
             </select>
           </div>
           <div class="form-row">
+            <label for="song-request">Song request</label>
+            <textarea id="song-request" name="song" rows="2" required placeholder="A song you’d love to hear…"></textarea>
+          </div>
+          <div class="form-row">
             <label for="message">Notes / things we should know <span class="optional">(optional)</span></label>
-            <textarea id="message" name="notes" rows="4" placeholder="Dietary notes, a song request, or anything else we should know…"></textarea>
+            <textarea id="message" name="notes" rows="4" placeholder="Dietary notes or anything else we should know…"></textarea>
           </div>
           <p class="form-status" data-form-status hidden></p>
           <div class="form-actions">
@@ -91,6 +95,6 @@
     <a class="footer-logo" href="home.html"><img src="../assets/images/Cahoon%20Logo.png" alt="Alyssa and Liam Cahoon"></a>
   </footer>
 
-  <script src="../script.js?v=74"></script>
+  <script src="../script.js?v=75"></script>
 </body>
 </html>

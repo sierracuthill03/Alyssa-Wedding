@@ -395,6 +395,7 @@
       const first = firstValue();
       const email = String(form.querySelector("#guest-email")?.value || "").trim();
       const attending = String(form.querySelector("#attending")?.value || "").trim();
+      const song = String(form.querySelector("#song-request")?.value || "").trim();
       const notes = String(form.querySelector("#message")?.value || "").trim();
 
       if (!last || !first) {
@@ -407,6 +408,10 @@
       }
       if (attending !== "Yes" && attending !== "No") {
         showStatus("Please tell us whether you can attend.", "error");
+        return;
+      }
+      if (!song) {
+        showStatus("Please add a song request.", "error");
         return;
       }
       if (!WEDDING.rsvpScriptUrl) {
@@ -430,7 +435,7 @@
         const response = await fetch(WEDDING.rsvpScriptUrl, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ last, first, email, attending, notes, overwrite: replaceExisting }),
+          body: JSON.stringify({ last, first, email, attending, song, notes, overwrite: replaceExisting }),
           redirect: "follow",
         });
         const result = await response.json();
@@ -499,32 +504,125 @@
     const canvas = document.querySelector("#places-map");
     if (!canvas || typeof L === "undefined") return;
 
-    const places = {
-      casino: {
+    const places = [
+      {
+        id: "casino",
         title: "Roger Williams Casino",
         lat: 41.7864,
         lng: -71.4147,
+        side: "left",
+        kind: "wedding",
         href: "https://www.google.com/maps/dir/?api=1&destination=Roger+Williams+Casino%2C+1000+Elmwood+Avenue%2C+Providence%2C+RI",
       },
-      airport: {
+      {
+        id: "airport",
         title: "T.F. Green Airport",
         lat: 41.7242,
         lng: -71.4281,
+        side: "right",
+        kind: "wedding",
         href: "https://www.google.com/maps/dir/?api=1&destination=Rhode+Island+T.F.+Green+International+Airport%2C+Warwick%2C+RI",
       },
-      station: {
+      {
+        id: "station",
         title: "Providence Station",
         lat: 41.8292,
         lng: -71.4133,
+        side: "right",
+        kind: "wedding",
         href: "https://www.google.com/maps/dir/?api=1&destination=Providence+Station%2C+100+Gaspee+Street%2C+Providence%2C+RI",
       },
-      hotel: {
+      {
+        id: "hotel",
         title: "Crowne Plaza",
         lat: 41.7142,
         lng: -71.4637,
+        side: "left",
+        kind: "wedding",
         href: "https://www.google.com/maps/dir/?api=1&destination=Crowne+Plaza+Providence-Warwick%2C+801+Greenwich+Avenue%2C+Warwick%2C+RI",
       },
-    };
+      {
+        id: "federalHill",
+        title: "Federal Hill",
+        lat: 41.8238,
+        lng: -71.4268,
+        side: "top",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Federal+Hill%2C+Providence%2C+RI",
+      },
+      {
+        id: "goddard",
+        title: "Goddard Park",
+        lat: 41.65556,
+        lng: -71.43583,
+        side: "right",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Goddard+Memorial+State+Park%2C+Warwick%2C+RI",
+      },
+      {
+        id: "pawtuxet",
+        title: "Pawtuxet Village",
+        lat: 41.7642,
+        lng: -71.3915,
+        side: "right",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Pawtuxet+Village%2C+Cranston%2C+RI",
+      },
+      {
+        id: "cliffWalk",
+        title: "Cliff Walk",
+        lat: 41.4805,
+        lng: -71.2973,
+        side: "right",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Cliff+Walk%2C+Newport%2C+RI",
+      },
+      {
+        id: "narragansett",
+        title: "Narragansett Towers",
+        lat: 41.431,
+        lng: -71.4554,
+        side: "left",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=The+Towers%2C+Narragansett%2C+RI",
+      },
+      {
+        id: "wickford",
+        title: "Wickford Village",
+        lat: 41.5736,
+        lng: -71.4475,
+        side: "left",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Wickford+Village%2C+North+Kingstown%2C+RI",
+      },
+      {
+        id: "beavertail",
+        title: "Beavertail",
+        lat: 41.4494,
+        lng: -71.3995,
+        side: "right",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Beavertail+State+Park%2C+Jamestown%2C+RI",
+      },
+      {
+        id: "umbrella",
+        title: "Umbrella Factory",
+        lat: 41.3775,
+        lng: -71.66139,
+        side: "left",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=The+Fantastic+Umbrella+Factory%2C+Charlestown%2C+RI",
+      },
+      {
+        id: "ninigret",
+        title: "Ninigret Park",
+        lat: 41.3685,
+        lng: -71.649,
+        side: "right",
+        kind: "visit",
+        href: "https://www.google.com/maps/dir/?api=1&destination=Ninigret+Park%2C+Charlestown%2C+RI",
+      },
+    ];
 
     const map = L.map(canvas, {
       scrollWheelZoom: true,
@@ -545,27 +643,32 @@
       iconAnchor: [12, 36],
     });
 
-    const labelSide = {
-      casino: "right",
-      airport: "right",
-      station: "right",
-      hotel: "left",
-    };
-
     const markers = {};
     const bounds = L.latLngBounds([]);
 
-    Object.entries(places).forEach(([id, place]) => {
-      const marker = L.marker([place.lat, place.lng], { icon: pinIcon, title: place.title }).addTo(map);
+    places.forEach((place) => {
+      const marker = L.marker([place.lat, place.lng], {
+        icon: pinIcon,
+        title: place.title,
+        riseOnHover: true,
+        zIndexOffset: place.kind === "wedding" ? 200 : 0,
+      }).addTo(map);
+
+      const tooltipOffset = {
+        left: [-6, -18],
+        right: [6, -18],
+        top: [0, -28],
+        bottom: [0, 6],
+      };
 
       marker.bindTooltip(
         `<a href="${place.href}" target="_blank" rel="noopener noreferrer">${place.title}</a>`,
         {
-          permanent: true,
-          interactive: true,
-          direction: labelSide[id] || "right",
-          offset: labelSide[id] === "left" ? [-6, -18] : [6, -18],
-          className: "place-tooltip",
+          permanent: place.kind === "wedding",
+          interactive: place.kind === "wedding",
+          direction: place.side || "right",
+          offset: tooltipOffset[place.side] || [6, -18],
+          className: place.kind === "visit" ? "place-tooltip place-tooltip-sm" : "place-tooltip",
           opacity: 1,
         }
       );
@@ -574,13 +677,15 @@
         window.open(place.href, "_blank", "noopener,noreferrer");
       });
 
-      marker.on("mouseover", () => setActivePlace(id));
+      marker.on("mouseover", () => setActivePlace(place.id));
       marker.on("mouseout", () => {
         if (!canvas.matches(":hover")) clearActivePlace();
       });
 
-      markers[id] = marker;
-      bounds.extend([place.lat, place.lng]);
+      markers[place.id] = marker;
+      if (place.kind === "wedding") {
+        bounds.extend([place.lat, place.lng]);
+      }
     });
 
     const fitPlaces = () => {

@@ -26,6 +26,8 @@ const COL = {
   rsvp: 4,
   notes: 5,
   email: 6,
+  timestamp: 7,
+  song: 8,
 };
 
 const COLOR = {
@@ -90,8 +92,18 @@ function getSheet() {
 }
 
 function ensureHeaders(sheet) {
-  const headers = ["Last Name", "First Name / Names", "Number of Guests", "RSVP", "Notes", "Email"];
-  const existing = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+  const headers = [
+    "Last Name",
+    "First Name / Names",
+    "Number of Guests",
+    "RSVP",
+    "Notes",
+    "Email",
+    "Timestamp",
+    "Song Request",
+  ];
+  const lastCol = Math.max(sheet.getLastColumn(), headers.length);
+  const existing = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   headers.forEach(function (title, i) {
     if (!String(existing[i] || "").trim()) {
       sheet.getRange(1, i + 1).setValue(title);
@@ -99,19 +111,51 @@ function ensureHeaders(sheet) {
   });
 }
 
+function getColumns(sheet) {
+  const lastCol = Math.max(sheet.getLastColumn(), 8);
+  const headers = sheet.getRange(1, 1, 1, lastCol).getDisplayValues()[0];
+  const col = {
+    last: COL.last,
+    first: COL.first,
+    guests: COL.guests,
+    rsvp: COL.rsvp,
+    notes: COL.notes,
+    email: COL.email,
+    timestamp: COL.timestamp,
+    song: COL.song,
+  };
+
+  headers.forEach(function (title, i) {
+    const header = String(title || "").trim().toLowerCase();
+    const index = i + 1;
+    if (header === "last name" || header === "last") col.last = index;
+    else if (header.indexOf("first") === 0) col.first = index;
+    else if (header.indexOf("number of guest") === 0) col.guests = index;
+    else if (header === "rsvp") col.rsvp = index;
+    else if (header === "notes" || header.indexOf("note") === 0) col.notes = index;
+    else if (header.indexOf("email") === 0) col.email = index;
+    else if (header.indexOf("time") !== -1 || header === "date" || header.indexOf("submitted") !== -1) col.timestamp = index;
+    else if (header.indexOf("song") !== -1) col.song = index;
+  });
+
+  return col;
+}
+
 function listGuests() {
   const sheet = getSheet();
+  const col = getColumns(sheet);
   const lastRow = Math.max(sheet.getLastRow(), 1);
   if (lastRow < 2) return [];
 
-  const rows = sheet.getRange(2, COL.last, lastRow - 1, COL.rsvp).getValues();
+  const width = Math.max(col.last, col.first, col.rsvp);
+  const rows = sheet.getRange(2, 1, lastRow - 1, width).getValues();
   const guests = [];
 
   rows.forEach(function (row) {
-    const last = String(row[0] || "").trim();
-    const first = String(row[1] || "").trim();
+    const last = String(row[col.last - 1] || "").trim();
+    const first = String(row[col.first - 1] || "").trim();
     if (last && first) {
-      guests.push({ last: last, first: first, rsvp: rsvpStatus(row[3]) });
+      guests.push({ last: last, first: first, rsvp: rsvpStatus(row[col.rsvp - 1]) });
     }
   });
 
@@ -146,10 +190,11 @@ function saveRsvp(data) {
   const first = String(data.first || "").trim();
   const email = String(data.email || "").trim();
   const attending = String(data.attending || "").trim();
+  const song = String(data.song || "").trim();
   const notes = String(data.notes || "").trim();
 
-  if (!last || !first || !email || (attending !== "Yes" && attending !== "No")) {
-    return { ok: false, error: "Please complete last name, first name, email, and whether you will attend." };
+  if (!last || !first || !email || (attending !== "Yes" && attending !== "No") || !song) {
+    return { ok: false, error: "Please complete last name, first name, email, whether you will attend, and a song request." };
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -157,17 +202,19 @@ function saveRsvp(data) {
   }
 
   const sheet = getSheet();
+  const col = getColumns(sheet);
   const lastRow = Math.max(sheet.getLastRow(), 1);
   if (lastRow < 2) {
     return { ok: false, error: "That invitation could not be found." };
   }
 
-  const rows = sheet.getRange(2, COL.last, lastRow - 1, 2).getValues();
+  const nameWidth = Math.max(col.last, col.first);
+  const rows = sheet.getRange(2, 1, lastRow - 1, nameWidth).getValues();
   let rowIndex = -1;
 
   for (let i = 0; i < rows.length; i++) {
-    const rowLast = String(rows[i][0] || "").trim();
-    const rowFirst = String(rows[i][1] || "").trim();
+    const rowLast = String(rows[i][col.last - 1] || "").trim();
+    const rowFirst = String(rows[i][col.first - 1] || "").trim();
     if (equalsIgnoreCase(rowLast, last) && equalsIgnoreCase(rowFirst, first)) {
       rowIndex = i + 2;
       break;
@@ -178,7 +225,7 @@ function saveRsvp(data) {
     return { ok: false, error: "That invitation could not be found. Please choose a name from the list." };
   }
 
-  const existingRsvp = rsvpStatus(sheet.getRange(rowIndex, COL.rsvp).getValue());
+  const existingRsvp = rsvpStatus(sheet.getRange(rowIndex, col.rsvp).getValue());
   const overwrite = data.overwrite === true || data.overwrite === "true";
 
   if (existingRsvp && !overwrite) {
@@ -190,18 +237,20 @@ function saveRsvp(data) {
     };
   }
 
-  const canonicalLast = String(sheet.getRange(rowIndex, COL.last).getValue()).trim();
-  const canonicalFirst = String(sheet.getRange(rowIndex, COL.first).getValue()).trim();
+  const canonicalLast = String(sheet.getRange(rowIndex, col.last).getValue()).trim();
+  const canonicalFirst = String(sheet.getRange(rowIndex, col.first).getValue()).trim();
 
-  sheet.getRange(rowIndex, COL.rsvp).setValue(attending);
-  sheet.getRange(rowIndex, COL.notes).setValue(notes);
-  sheet.getRange(rowIndex, COL.email).setValue(email);
+  sheet.getRange(rowIndex, col.rsvp).setValue(attending);
+  sheet.getRange(rowIndex, col.notes).setValue(notes);
+  sheet.getRange(rowIndex, col.email).setValue(email);
+  sheet.getRange(rowIndex, col.timestamp).setValue(new Date()).setNumberFormat("M/d/yyyy h:mm am/pm");
+  sheet.getRange(rowIndex, col.song).setValue(song);
 
-  sheet.getRange(rowIndex, COL.last, 1, 2).setBackground(COLOR.nameResponded);
-  sheet.getRange(rowIndex, COL.rsvp).setBackground(attending === "Yes" ? COLOR.rsvpYes : COLOR.rsvpNo);
+  sheet.getRange(rowIndex, col.last, 1, 2).setBackground(COLOR.nameResponded);
+  sheet.getRange(rowIndex, col.rsvp).setBackground(attending === "Yes" ? COLOR.rsvpYes : COLOR.rsvpNo);
 
   try {
-    sendConfirmation(email, canonicalLast, canonicalFirst, attending, notes);
+    sendConfirmation(email, canonicalLast, canonicalFirst, attending, song, notes);
   } catch (err) {
     return {
       ok: true,
@@ -212,7 +261,7 @@ function saveRsvp(data) {
   return { ok: true };
 }
 
-function sendConfirmation(email, last, first, attending, notes) {
+function sendConfirmation(email, last, first, attending, song, notes) {
   const coming = attending === "Yes";
   const subject = coming
     ? "RSVP received — we cannot wait to celebrate with you"
@@ -226,6 +275,7 @@ function sendConfirmation(email, last, first, attending, notes) {
     "",
     "Invitation: " + first + " " + last,
     "Response: " + (coming ? "Joyfully accepts" : "Regretfully declines"),
+    "Song request: " + song,
   ];
 
   if (notes) {

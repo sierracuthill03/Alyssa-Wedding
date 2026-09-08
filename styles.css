@@ -1142,7 +1142,7 @@ textarea {
 
 .places-map-circle {
   position: relative;
-  width: min(26.5rem, 86vw);
+  width: min(36rem, 92vw);
   aspect-ratio: 1;
   border-radius: 50%;
   overflow: hidden;
@@ -1213,6 +1213,11 @@ textarea {
   color: #e53935;
 }
 
+.place-tooltip-sm.leaflet-tooltip {
+  font-size: 0.78rem;
+  padding: 0.12rem 0.4rem;
+}
+
 .place-tooltip.leaflet-tooltip-right::before,
 .place-tooltip.leaflet-tooltip-left::before,
 .place-tooltip.leaflet-tooltip-top::before,
@@ -1224,7 +1229,19 @@ textarea {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-md);
-  max-width: 48rem;
+  max-width: 54rem;
+  margin-inline: auto;
+}
+
+@media (min-width: 900px) {
+  .area-grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 70rem;
+  }
+}
+
+.area .section-lede {
+  max-width: 38rem;
   margin-inline: auto;
 }
 
@@ -1234,6 +1251,14 @@ textarea {
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-rule);
   box-shadow: var(--shadow-soft);
+}
+
+.area-town {
+  margin: 0 0 0.35rem;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-slate);
 }
 
 .area-card h3 {
@@ -1246,6 +1271,10 @@ textarea {
 .area-card p {
   margin: 0;
   color: var(--color-ink-soft);
+}
+
+.area-card .area-town {
+  margin: 0 0 0.35rem;
 }
 
 .places-map-credit {
@@ -1356,6 +1385,10 @@ textarea {
 .form-row textarea {
   resize: vertical;
   min-height: 7rem;
+}
+
+.form-row textarea[name="song"] {
+  min-height: 3.6rem;
 }
 
 .lookup {

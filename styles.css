@@ -680,6 +680,18 @@ textarea {
   transform: scale(1.38);
 }
 
+.party-card-photo img[src*="sam.jpg"] {
+  object-position: center 22%;
+}
+
+.party-card-photo img[src*="josh.jpg"] {
+  object-position: center 38%;
+}
+
+.party-card-photo img[src*="Logan.jpg"] {
+  object-position: center 42%;
+}
+
 .party-card:nth-child(6n + 1) .party-card-photo { background: #4b5e76; }
 .party-card:nth-child(6n + 2) .party-card-photo { background: #1f459e; }
 .party-card:nth-child(6n + 3) .party-card-photo { background: #68734c; }
@@ -693,6 +705,7 @@ textarea {
   display: grid;
   place-items: center;
   padding: 1.15rem 1.2rem;
+  overflow: auto;
   background: rgba(31, 69, 158, 0.92);
   opacity: 0;
   visibility: hidden;
@@ -702,8 +715,8 @@ textarea {
 .party-card-overlay p {
   margin: 0;
   color: #e8eef8;
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-size: 0.92rem;
+  line-height: 1.5;
   text-align: center;
 }
 

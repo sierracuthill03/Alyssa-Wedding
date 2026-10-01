@@ -820,10 +820,20 @@ textarea {
   object-position: center 8%;
 }
 
+.party-card-photo img[src*="ben.jpg"] {
+  object-position: center 5%;
+}
+
+.party-card-photo img[src*="kaliee.jpg"] {
+  object-position: left 30%;
+  transform: scale(1.72);
+  transform-origin: left center;
+}
+
 .party-card-photo img[src*="mycka"] {
-  object-position: center top;
-  transform: scale(1.18);
-  transform-origin: center top;
+  object-position: center 58%;
+  transform: scale(1.33);
+  transform-origin: right center;
 }
 
 .party-card:nth-child(6n + 1) .party-card-photo { background: #4b5e76; }

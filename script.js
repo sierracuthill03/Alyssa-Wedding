@@ -488,6 +488,19 @@
     });
   };
 
+  const initFaq = () => {
+    const items = document.querySelectorAll(".is-faq .faq-item");
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      item.querySelector("summary")?.addEventListener("click", () => {
+        items.forEach((other) => {
+          if (other !== item) other.open = false;
+        });
+      });
+    });
+  };
+
   navToggle?.addEventListener("click", () => {
     setNavOpen(!nav.classList.contains("is-open"));
   });
@@ -730,4 +743,5 @@
   observeReveals();
   initPlacesMap();
   initRsvpForm();
+  initFaq();
 })();

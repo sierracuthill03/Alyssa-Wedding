@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=73">
+  <link rel="stylesheet" href="../styles.css?v=114">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -29,14 +29,17 @@
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="registry.html">Registry</a></li>
         <li><a href="FAQs.html">FAQ</a></li>
+        <!-- RSVP: uncomment when invitations go out
         <li><a href="rsvp.html">RSVP</a></li>
+        -->
       </ul>
     </nav>
   </header>
 
+  <!-- RSVP form is parked for save-the-dates. Uncomment the nav links sitewide to bring this page back. -->
   <main id="main">
     <section class="hero page-hero">
-      <p class="eyebrow">Kindly reply</p>
+      <p class="eyebrow">Save the date</p>
       <h1 class="hero-names">
         <span class="hero-name">RSVP</span>
       </h1>
@@ -46,47 +49,8 @@
     <section class="section rsvp">
       <div class="rsvp-panel reveal">
         <div class="section-heading">
-          <p class="section-lede">We hope you can join us. Please respond by May 15, 2027. Start typing your last name, then choose the names on your invitation so everything stays spelled just as we have it.</p>
+          <p class="section-lede">Please save the date: Saturday, June 26, 2027. Formal invitations and RSVP details will follow. We can’t wait to celebrate with you.</p>
         </div>
-        <form class="rsvp-form" data-rsvp-form novalidate>
-          <div class="form-row lookup" data-lookup="last">
-            <label for="guest-last">Last name</label>
-            <input id="guest-last" name="last" type="text" autocomplete="off" spellcheck="false" required placeholder="Start typing your last name" aria-autocomplete="list" aria-expanded="false" aria-controls="last-options">
-            <ul class="lookup-list" id="last-options" role="listbox" hidden></ul>
-            <input type="hidden" name="lastCanonical" data-lookup-value>
-          </div>
-          <div class="form-row lookup" data-lookup="first">
-            <label for="guest-first">First name / names on the invitation</label>
-            <input id="guest-first" name="first" type="text" autocomplete="off" spellcheck="false" required disabled placeholder="Choose a last name first" aria-autocomplete="list" aria-expanded="false" aria-controls="first-options">
-            <ul class="lookup-list" id="first-options" role="listbox" hidden></ul>
-            <input type="hidden" name="firstCanonical" data-lookup-value>
-          </div>
-          <div class="form-row">
-            <label for="guest-email">Email</label>
-            <input id="guest-email" name="email" type="email" autocomplete="email" required>
-          </div>
-          <div class="form-row">
-            <label for="attending">Will you attend?</label>
-            <select id="attending" name="attending" required>
-              <option value="" disabled selected>Please choose</option>
-              <option value="Yes">Joyfully accepts</option>
-              <option value="No">Regretfully declines</option>
-            </select>
-          </div>
-          <div class="form-row">
-            <label for="song-request">Song request</label>
-            <textarea id="song-request" name="song" rows="2" required placeholder="A song you’d love to hear…"></textarea>
-          </div>
-          <div class="form-row">
-            <label for="message">Notes / things we should know <span class="optional">(optional)</span></label>
-            <textarea id="message" name="notes" rows="4" placeholder="Dietary notes or anything else we should know…"></textarea>
-          </div>
-          <p class="form-status" data-form-status hidden></p>
-          <div class="form-actions">
-            <button class="btn rsvp-again" type="button" data-rsvp-overwrite style="display:none">Submit again</button>
-            <button class="btn" type="submit">Send RSVP</button>
-          </div>
-        </form>
       </div>
     </section>
   </main>

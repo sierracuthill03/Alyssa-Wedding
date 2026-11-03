@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../styles.css?v=123">
 </head>
-<body>
+<body class="is-registry">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="masthead" data-header>
     <a class="brand" href="home.html"><img src="../assets/images/Cahoon%20Logo.png" alt="Alyssa and Liam Cahoon"></a>
@@ -29,7 +29,9 @@
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="registry.html">Registry</a></li>
         <li><a href="FAQs.html">FAQ</a></li>
+        <!-- RSVP: uncomment when invitations go out
         <li><a href="rsvp.html">RSVP</a></li>
+        -->
       </ul>
     </nav>
   </header>
@@ -44,13 +46,23 @@
     </section>
 
     <section class="section registry">
-      <div class="section-heading reveal">
-        <p class="section-lede">Your presence is the gift we want most. If you wish to honor us further, we have gathered a few things for the home we are making.</p>
+      <div class="section-heading">
+        <p class="section-lede">Your presence is the gift we want most. If you wish to honor us further, we’ve gathered a few things for the home we are making. Each link opens that registry in a new tab.</p>
       </div>
-      <ul class="registry-list reveal">
-        <li><a href="https://www.zola.com" target="_blank" rel="noopener noreferrer">Zola Registry</a></li>
-        <li><a href="https://www.amazon.com" target="_blank" rel="noopener noreferrer">Amazon Wishlist</a></li>
-      </ul>
+      <div class="registry-grid">
+        <a class="registry-card" href="https://www.amazon.com/wedding/guest-view/3GLXIKO4N28TW" target="_blank" rel="noopener noreferrer">
+          <p class="registry-store">Amazon</p>
+          <h2>Everyday &amp; household</h2>
+          <p>Browse the Amazon registry for the practical pieces that help us set up house.</p>
+          <span class="registry-go">View registry</span>
+        </a>
+        <a class="registry-card" href="https://www.crateandbarrel.com/gift-registry/alyssa-leavitt-and-liam-cahoon/r7581227" target="_blank" rel="noopener noreferrer">
+          <p class="registry-store">Crate &amp; Barrel</p>
+          <h2>Kitchen &amp; home</h2>
+          <p>Find tableware, kitchen tools, and the pieces we chose for our new home.</p>
+          <span class="registry-go">View registry</span>
+        </a>
+      </div>
     </section>
   </main>
 

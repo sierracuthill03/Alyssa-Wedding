@@ -11,12 +11,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../styles.css?v=67">
+  <link rel="stylesheet" href="../styles.css?v=138">
 </head>
 <body class="is-home">
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="masthead" data-header>
-    <p class="masthead-names"><a href="home.html">Alyssa &amp; Liam</a></p>
     <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="site-nav">
       <span class="nav-toggle-bar"></span>
       <span class="visually-hidden">Menu</span>
@@ -29,34 +28,63 @@
         <li><a href="gallery.html">Gallery</a></li>
         <li><a href="registry.html">Registry</a></li>
         <li><a href="FAQs.html">FAQ</a></li>
+        <!-- RSVP: uncomment when invitations go out
         <li><a href="rsvp.html">RSVP</a></li>
+        -->
       </ul>
     </nav>
-    <p class="masthead-date"><time datetime="2027-06-26">06.26.2027</time></p>
   </header>
 
   <main id="main">
-    <figure class="feature-photo">
-      <img src="../assets/images/home%20page.jpg" alt="Alyssa and Liam">
-    </figure>
-    <div class="countdown" id="countdown" data-countdown aria-live="polite">
-      <div class="countdown-item">
-        <span class="countdown-value" id="count-days">00</span>
-        <span class="countdown-label">Days</span>
+    <section class="home-invite">
+      <h1 class="home-names">
+        <span>Alyssa Leavitt</span>
+        <span class="home-and">and</span>
+        <span>Liam Cahoon</span>
+      </h1>
+      <p class="home-date"><time datetime="2027-06-26">06.26.2027</time></p>
+      <p class="home-place">Warwick, RI</p>
+      <div class="countdown" id="countdown" data-countdown aria-live="polite">
+        <div class="countdown-item">
+          <span class="countdown-value" id="count-days">00</span>
+          <span class="countdown-label">Days</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-value" id="count-hours">00</span>
+          <span class="countdown-label">Hours</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-value" id="count-minutes">00</span>
+          <span class="countdown-label">Minutes</span>
+        </div>
+        <div class="countdown-item">
+          <span class="countdown-value" id="count-seconds">00</span>
+          <span class="countdown-label">Seconds</span>
+        </div>
       </div>
-      <div class="countdown-item">
-        <span class="countdown-value" id="count-hours">00</span>
-        <span class="countdown-label">Hours</span>
-      </div>
-      <div class="countdown-item">
-        <span class="countdown-value" id="count-minutes">00</span>
-        <span class="countdown-label">Minutes</span>
-      </div>
-      <div class="countdown-item">
-        <span class="countdown-value" id="count-seconds">00</span>
-        <span class="countdown-label">Seconds</span>
-      </div>
-    </div>
+    </section>
+    <section class="home-spread">
+      <figure class="home-shot home-shot-side home-shot-a">
+        <img src="../assets/images/Save%20the%20Date%20Ideas.png" alt="Alyssa’s hand with her engagement ring on Liam’s shoulder" data-photo="save-ring">
+      </figure>
+      <figure class="home-shot home-shot-hero">
+        <img src="../assets/images/home%20page.jpg" alt="Alyssa and Liam">
+      </figure>
+      <figure class="home-shot home-shot-side home-shot-b">
+        <img src="../assets/images/photos/Save%20the%20Date%20Ideas.png" alt="Alyssa and Liam looking at each other" data-photo="save-faces">
+      </figure>
+    </section>
+    <section class="home-spread home-spread-lower">
+      <figure class="home-shot home-shot-side home-shot-c">
+        <img src="../assets/images/photos/Save%20the%20Date%20Ideas2.png" alt="Alyssa and Liam holding hands, showing the engagement ring" data-photo="save-hands">
+      </figure>
+      <figure class="home-shot home-shot-side home-shot-d">
+        <img src="../assets/images/photos/Save%20the%20Date%20Ideas1.png" alt="Alyssa and Liam walking through a tulip field" data-photo="save-tulips">
+      </figure>
+      <figure class="home-shot home-shot-side home-shot-e">
+        <img src="../assets/images/photos/Save%20the%20Date%20Ideas3.png" alt="Alyssa and Liam in front of a windmill" data-photo="save-windmill">
+      </figure>
+    </section>
   </main>
 
   <footer class="site-footer">

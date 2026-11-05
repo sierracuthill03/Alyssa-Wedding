@@ -647,43 +647,44 @@ textarea {
   gap: 0.85rem;
 }
 
+/*
+  Gallery blocks: one 3:4 hero beside three 4:3 tiles. The block height comes
+  from its aspect ratio so the slots match the photos at any width (no
+  heavy cropping). Portrait rows hold 3:4 photos edge to edge.
+*/
 .gallery-block {
   display: grid;
   grid-template-columns: 1.65fr 1fr;
   grid-template-rows: repeat(3, minmax(0, 1fr));
   gap: 0.85rem;
-  height: 52rem;
+  aspect-ratio: 1.2;
 }
 
 .gallery-block-flip {
   grid-template-columns: 1fr 1.65fr;
 }
 
-.gallery-block-tall {
-  grid-template-rows: repeat(4, minmax(0, 1fr));
-  height: 64rem;
+.gallery-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.85rem;
 }
 
-.gallery-block-pair {
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+.gallery-row-three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.gallery-block:has(img[data-photo="ice skating.jpg"]) {
-  grid-template-rows: 0.85fr 0.85fr 1.4fr;
-  height: 56rem;
-}
-
-.gallery-block-flip:has(img[data-photo="Picture60.jpg"]) {
-  grid-template-rows: 0.75fr 1.2fr 1.2fr;
-  height: 58rem;
-}
-
-.gallery-block figure {
+.gallery-block figure,
+.gallery-row figure {
   margin: 0;
   min-width: 0;
   min-height: 0;
   overflow: hidden;
   border-radius: 0.85rem;
+}
+
+.gallery-row figure {
+  aspect-ratio: 3 / 4;
 }
 
 .gallery-hero {
@@ -695,48 +696,17 @@ textarea {
   grid-column: 2;
 }
 
-.gallery-block img {
+.gallery-block img,
+.gallery-row img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 35%;
+  object-position: center;
 }
 
-.gallery-block img[data-photo="1.jpg"] { object-position: center 78%; }
-.gallery-block img[data-photo="2.jpg"] { object-position: center 36%; }
-.gallery-block img[data-photo="3.jpg"] { object-position: center 36%; }
-.gallery-block img[data-photo="4.jpg"] { object-position: center 30%; }
-.gallery-block img[data-photo="5.jpg"] { object-position: center 32%; }
-.gallery-block img[data-photo="6.jpg"] { object-position: 42% 38%; }
-.gallery-block img[data-photo="7.jpg"] { object-position: center 46%; }
-.gallery-block img[data-photo="8.jpg"] { object-position: center 28%; }
-.gallery-block img[data-photo="9.jpg"] { object-position: center 36%; }
-.gallery-block img[data-photo="10.jpg"],
-.gallery-block img[data-photo="12.jpg"],
-.gallery-block img[data-photo="15.jpg"],
-.gallery-block img[data-photo="20.jpg"],
-.gallery-block img[data-photo="pumpkin.jpg"] { object-position: center center; }
-.gallery-block img[data-photo="11.jpg"] { object-position: 62% 58%; }
-.gallery-block img[data-photo="13.jpg"] { object-position: center 68%; }
-.gallery-block img[data-photo="14.jpg"] { object-position: center 28%; }
-.gallery-block img[data-photo="16.jpg"] { object-position: center 34%; }
-.gallery-block img[data-photo="17.jpg"] { object-position: center 30%; }
-.gallery-block img[data-photo="18.jpg"] { object-position: center 52%; }
-.gallery-block img[data-photo="19.jpg"] { object-position: center 32%; }
-.gallery-block img[data-photo="21.jpg"] { object-position: center 58%; }
-.gallery-block img[data-photo="22.jpg"] { object-position: center 50%; }
-.gallery-block img[data-photo="23.jpg"] { object-position: center 40%; }
-.gallery-block img[data-photo="hiking.jpg"] { object-position: center 38%; }
-.gallery-block img[data-photo="ice skating.jpg"] { object-position: 38% 42%; }
-.gallery-block img[data-photo="forehead.jpg"] { object-position: center 35%; }
-.gallery-block img[data-photo="Picture57.jpg"] { object-position: 40% 70%; }
-.gallery-block img[data-photo="Picture58.jpg"] { object-position: 52% 78%; }
-.gallery-block img[data-photo="Picture60.jpg"] { object-position: 46% 40%; }
-.gallery-block img[data-photo="Picture61.jpg"] { object-position: 44% 42%; }
-.gallery-block img[data-photo="Picture63.jpg"] { object-position: 42% 48%; }
-.gallery-block img[data-photo="Picture64.jpg"] { object-position: 48% 16%; }
-.gallery-block img[data-photo="Picture75.jpg"] { object-position: 18% 42%; }
+/* 9:16 phone shot — the only photo that doesn't fit a 3:4 slot */
+.gallery-row img[data-photo="6.jpg"] { object-position: center 38%; }
 
 .is-crew .page-hero {
   padding-top: 3rem;
@@ -985,7 +955,8 @@ textarea {
 .story-card p,
 .detail-card p,
 .travel-card p,
-.timeline-item p {
+.timeline-item p,
+.faq-item p {
   color: var(--color-ink-soft);
 }
 
@@ -1000,12 +971,26 @@ textarea {
 }
 
 .day-section {
-  width: min(calc(100% - 1.6rem), 82rem);
-  padding-top: 1.25rem;
+  width: min(calc(100% - 1.6rem), 64rem);
+  padding-top: 0.75rem;
+  padding-bottom: var(--space-lg);
+}
+
+.is-details .page-hero {
+  padding-top: 0.6rem;
+  padding-bottom: 0.85rem;
+}
+
+.day-events {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.85rem;
+  margin: 0 auto 1.5rem;
+  max-width: 40rem;
 }
 
 .day-date {
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.9rem;
   text-align: center;
   color: var(--color-ink);
   font-family: var(--font-display);
@@ -1015,12 +1000,36 @@ textarea {
 }
 
 .day-attire {
-  max-width: 40rem;
-  margin: 0 auto 0.2rem;
+  max-width: 42rem;
+  margin: 0 auto 1.75rem;
   text-align: center;
   color: var(--color-ink-soft);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.day-ceremony {
+  max-width: none;
+  margin: 0;
+  text-align: center;
+}
+
+.day-ceremony h2 {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.day-ceremony p {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  font-style: italic;
+  letter-spacing: 0.03em;
+  line-height: 1.6;
 }
 
 .day-note {
@@ -1034,14 +1043,18 @@ textarea {
 
 .day-feature {
   display: grid;
-  gap: 1.6rem;
-  margin: 1.75rem 0 0;
+  gap: 0.65rem;
+  margin: 0;
 }
 
 .day-feature img {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(64vh, 36rem);
+  margin-inline: auto;
+  object-fit: contain;
   box-shadow: var(--shadow-soft);
 }
 
@@ -1052,7 +1065,7 @@ textarea {
 }
 
 .day-feature-copy h2 {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.55rem;
   font-family: var(--font-display);
   font-size: clamp(1.7rem, 3.2vw, 2.35rem);
   font-weight: 500;
@@ -1060,7 +1073,7 @@ textarea {
 }
 
 .day-feature-time {
-  margin-bottom: 0.85rem;
+  margin-bottom: 0.65rem;
   color: var(--color-ink);
   font-family: var(--font-display);
   font-size: 1.35rem;
@@ -1073,7 +1086,14 @@ textarea {
 }
 
 .day-feature-copy .detail-meta {
-  margin-top: 0.85rem;
+  margin-top: 0.55rem;
+}
+
+.day-feature-blurb {
+  max-width: 38rem;
+  margin: 0 auto;
+  text-align: center;
+  color: var(--color-ink-soft);
 }
 
 .day-timeline {
@@ -1879,47 +1899,140 @@ body.is-registry main {
    FAQ
    ========================================================================== */
 
-.section.faq-section {
-  padding-top: var(--space-md);
-  padding-bottom: var(--space-lg);
-}
-
-.faq-card {
-  width: min(100%, 46rem);
+.faq-list {
+  max-width: var(--width-narrow);
   margin-inline: auto;
-  padding: clamp(2rem, 4vw, 3.4rem) clamp(1.4rem, 4.5vw, 3.6rem) clamp(2.2rem, 4vw, 3.6rem);
-  background: var(--color-bg-elevated);
-  border: 2px solid var(--color-dusty);
-  box-shadow: var(--shadow-soft);
 }
 
-.faq-entry {
-  text-align: center;
+.faq-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-rule);
 }
 
-.faq-entry + .faq-entry {
-  margin-top: clamp(1.6rem, 3vw, 2.35rem);
-}
-
-.faq-entry h2 {
-  margin: 0 0 0.55rem;
-  color: var(--color-ink);
-  font-family: var(--font-script);
-  font-size: clamp(2rem, 4.6vw, 3.05rem);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  text-wrap: balance;
-}
-
-.faq-entry p {
-  max-width: 38rem;
-  margin: 0 auto;
-  color: var(--color-ink-soft);
+.faq-question {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(0.98rem, 1.4vw, 1.12rem);
-  font-weight: 400;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.faq-item p {
+  margin-top: 0.65rem;
+}
+
+body.is-faq {
+  background: #1b1d1f;
+}
+
+body.is-faq .masthead {
+  background: #e3edf7;
+}
+
+body.is-faq .site-footer {
+  position: relative;
+  z-index: 2;
+  margin-top: 0;
+  background: #e3edf7;
+}
+
+.faq-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: max(calc(100vh - 8.5rem), calc(100vw * 2268 / 2830 - 12vw));
+}
+
+.faq-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url("assets/images/FAQ.jpg") center 28% / cover no-repeat;
+  filter: grayscale(1) contrast(1.08) brightness(0.92);
+}
+
+.faq-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(12, 14, 16, 0.42) 0%, rgba(12, 14, 16, 0.08) 26%, transparent 40%, transparent 60%, rgba(12, 14, 16, 0.08) 74%, rgba(12, 14, 16, 0.42) 100%),
+    linear-gradient(180deg, rgba(12, 14, 16, 0.12) 0%, transparent 18%, transparent 78%, rgba(12, 14, 16, 0.38) 100%);
+}
+
+.faq-spread {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(22rem, 38%) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 1rem 2.5rem;
+  width: 100%;
+  min-height: max(calc(100vh - 8.5rem), calc(100vw * 2268 / 2830 - 12vw));
+  margin-inline: auto;
+  padding: 4.5rem 2.25rem 3rem;
+}
+
+.faq-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 2.25rem;
+  min-height: 100%;
+}
+
+.faq-col-start {
+  grid-column: 1;
+  align-items: start;
+  text-align: left;
+}
+
+.faq-col-end {
+  grid-column: 3;
+  align-items: end;
+  text-align: right;
+}
+
+.is-faq .faq-item {
+  position: relative;
+  width: min(100%, 22rem);
+  padding: 0;
+  border: 0;
+}
+
+.is-faq .faq-question {
+  display: block;
+  max-width: 100%;
+  color: #f6f3ec;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-wrap: balance;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.is-faq .faq-answer {
+  margin-top: 0.7rem;
+}
+
+.is-faq .faq-answer > p {
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(255, 253, 248, 0.18);
+  background: rgba(255, 253, 248, 0.94);
+  box-shadow: var(--shadow-soft);
+  color: var(--color-ink);
+  font-size: 0.95rem;
   line-height: 1.55;
+  text-align: left;
+}
+
+.faq-col-start .faq-answer > p {
+  border-radius: 0.85rem 0.2rem 0.85rem 0.85rem;
+}
+
+.faq-col-end .faq-answer > p {
+  border-radius: 0.2rem 0.85rem 0.85rem 0.85rem;
 }
 
 /* ==========================================================================
@@ -1981,6 +2094,61 @@ body.is-registry main {
     grid-template-columns: 1fr;
   }
 
+  /* FAQ on small screens: photo sits in flow at the top, fully visible,
+     with the questions and answers stacked below it. */
+  .faq-page {
+    min-height: 0;
+  }
+
+  .faq-photo {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 2830 / 2268;
+    width: 100%;
+    background-position: center;
+  }
+
+  .faq-photo::after {
+    background: linear-gradient(180deg, transparent 78%, #e3edf7 100%);
+  }
+
+  .faq-spread {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    min-height: 0;
+    padding: 0.5rem 1.25rem 4rem;
+  }
+
+  .is-faq .faq-question {
+    color: var(--color-ink);
+    text-shadow: none;
+  }
+
+  .faq-col {
+    gap: 2rem;
+    min-height: 0;
+  }
+
+  .faq-col-start,
+  .faq-col-end {
+    grid-column: 1;
+    align-items: center;
+    text-align: center;
+  }
+
+  .is-faq .faq-item {
+    width: min(100%, 30rem);
+  }
+
+  .faq-col-start .faq-answer > p,
+  .faq-col-end .faq-answer > p {
+    border-radius: 0.85rem;
+  }
+
+  .day-feature img {
+    max-height: min(50vh, 24rem);
+  }
+
   .story-row {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-md) var(--space-sm);
@@ -2005,34 +2173,26 @@ body.is-registry main {
 
 @media (max-width: 760px) {
   .gallery-block,
-  .gallery-block-flip,
-  .gallery-block-tall,
-  .gallery-block-pair {
+  .gallery-block-flip {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto;
-    height: auto;
-    min-height: 0;
-  }
-
-  .gallery-block-pair {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .gallery-block:has(img[data-photo="ice skating.jpg"]),
-  .gallery-block-flip:has(img[data-photo="Picture60.jpg"]) {
-    height: auto;
-    grid-template-rows: auto;
+    aspect-ratio: auto;
   }
 
   .gallery-hero,
   .gallery-block-flip .gallery-hero {
     grid-column: 1 / -1;
     grid-row: auto;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 
   .gallery-tile {
-    aspect-ratio: 1;
+    aspect-ratio: 4 / 3;
+  }
+
+  .gallery-row,
+  .gallery-row-three {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

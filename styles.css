@@ -823,8 +823,10 @@ textarea {
   object-position: center 34%;
 }
 
-.party-card-photo img[src*="grace.png"] {
-  object-position: center 28%;
+.party-card-photo img[src*="grace-2.jpg"] {
+  object-position: center 60%;
+  transform: scale(1.85);
+  transform-origin: 48% 66%;
 }
 
 .party-card-photo img[src*="ben.jpg"] {
